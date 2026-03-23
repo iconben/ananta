@@ -285,10 +285,11 @@
 ## 6. 技术栈
 
 ### 6.1 前端
-- **框架：** React Native + Expo
+- **框架：** React Native + Expo（同一套代码支持 iOS、Android、Web）
 - **路由：** Expo Router（文件系统路由）
 - **状态管理：** Zustand
 - **本地存储：** AsyncStorage（普通数据）+ SecureStore（Token）
+- **Web 构建：** `npx expo export --web`
 
 ### 6.2 后端
 - **运行时：** Node.js + TypeScript

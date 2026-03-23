@@ -12,7 +12,7 @@ Target users: Buddhist practitioners (Chinese, Tibetan, Southern tradition), wit
 
 | Layer | Technology |
 |-------|------------|
-| Mobile | React Native + Expo, Expo Router (file-based routing), Zustand (state) |
+| Mobile & Web | React Native + Expo (single codebase: iOS, Android, Web), Expo Router, Zustand |
 | Backend | Node.js + TypeScript, Hono framework, Drizzle ORM, PostgreSQL |
 | Deployment | Alibaba Cloud Hong Kong (RDS PostgreSQL, OSS) |
 | Monorepo | pnpm workspaces + Turborepo |
@@ -61,14 +61,20 @@ pnpm install
 # Run all apps (mobile + api)
 pnpm dev
 
-# Run mobile app only
+# Run mobile app only (iOS/Android)
 pnpm --filter mobile dev
+
+# Run mobile web
+pnpm --filter mobile web
 
 # Run API only
 pnpm --filter api dev
 
-# Build mobile app
+# Build mobile app (iOS/Android)
 pnpm --filter mobile build
+
+# Build web
+pnpm --filter mobile build:web
 
 # Type check all packages
 pnpm typecheck
