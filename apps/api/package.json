@@ -1,0 +1,25 @@
+{
+  "name": "@ananta/api",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "hono": "^4.0.0",
+    "drizzle-orm": "^0.30.0",
+    "postgres": "^3.4.0",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.2.0",
+    "@ananta/types": "workspace:*",
+    "@ananta/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "drizzle-kit": "^0.20.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

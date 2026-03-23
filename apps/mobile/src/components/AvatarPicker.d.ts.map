@@ -1,0 +1,1 @@
+{"version":3,"file":"AvatarPicker.d.ts","sourceRoot":"","sources":["AvatarPicker.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAC;AAK1B,UAAU,iBAAiB;IACzB,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,EAAE,CAAC,GAAG,EAAE,MAAM,KAAK,IAAI,CAAC;CACjC;AAED,wBAAgB,YAAY,CAAC,EAAE,KAAK,EAAE,QAAQ,EAAE,EAAE,iBAAiB,qBAkBlE"}

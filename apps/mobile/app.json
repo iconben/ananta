@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "无量 Ananta",
+    "slug": "ananta",
+    "version": "0.1.0",
+    "scheme": "ananta",
+    "platforms": ["ios", "android", "web"],
+    "orientation": "portrait",
+    "backgroundColor": "#080c18",
+    "android": {
+      "package": "app.ananta.buddhist"
+    },
+    "extra": {
+      "eas": { "projectId": "ananta" }
+    }
+  }
+}
