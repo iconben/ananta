@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Record } from '@ananta/types';
+import type { PracticeRecord } from '@ananta/types';
 import { uid } from '@ananta/utils';
 
 interface RecordState {
-  records: Record[];
-  addRecord: (record: Omit<Record, 'id'>) => void;
-  getRecordsByPractice: (practiceId: string) => Record[];
-  getRecordsByCampaign: (campaignId: string) => Record[];
-  getRecordsInRange: (start: string, end: string) => Record[];
+  records: PracticeRecord[];
+  addRecord: (record: Omit<PracticeRecord, 'id' | 'updatedAt'>) => void;
+  getRecordsByPractice: (practiceId: string) => PracticeRecord[];
+  getRecordsByCampaign: (campaignId: string) => PracticeRecord[];
+  getRecordsInRange: (start: string, end: string) => PracticeRecord[];
   deleteRecord: (id: string) => void;
 }
 
@@ -19,7 +19,7 @@ export const useRecordStore = create<RecordState>()(
       records: [],
       addRecord: (record) =>
         set((state) => ({
-          records: [...state.records, { ...record, id: uid() }],
+          records: [...state.records, { ...record, id: uid(), updatedAt: new Date().toISOString() }],
         })),
       getRecordsByPractice: (practiceId) =>
         get().records.filter((r) => r.practiceId === practiceId),

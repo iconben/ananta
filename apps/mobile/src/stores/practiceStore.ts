@@ -6,7 +6,7 @@ import { INIT_PRACTICES, uid } from '@ananta/utils';
 
 interface PracticeState {
   practices: Practice[];
-  addPractice: (practice: Omit<Practice, 'id'>) => void;
+  addPractice: (practice: Omit<Practice, 'id' | 'updatedAt'>) => void;
   updatePractice: (id: string, updates: Partial<Practice>) => void;
   deletePractice: (id: string) => void;
   getPractice: (id: string) => Practice | undefined;
@@ -19,12 +19,12 @@ export const usePracticeStore = create<PracticeState>()(
       practices: [],
       addPractice: (practice) =>
         set((state) => ({
-          practices: [...state.practices, { ...practice, id: uid() }],
+          practices: [...state.practices, { ...practice, id: uid(), updatedAt: new Date().toISOString() }],
         })),
       updatePractice: (id, updates) =>
         set((state) => ({
           practices: state.practices.map((p) =>
-            p.id === id ? { ...p, ...updates } : p
+            p.id === id ? { ...p, ...updates, updatedAt: new Date().toISOString() } : p
           ),
         })),
       deletePractice: (id) =>

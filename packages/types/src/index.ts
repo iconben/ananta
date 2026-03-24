@@ -4,6 +4,7 @@ export interface Practice {
   icon: string;
   unit: string;
   color: string;
+  updatedAt: string;
 }
 
 export interface Campaign {
@@ -16,15 +17,17 @@ export interface Campaign {
   end: string;   // date YYYY-MM-DD
   done: boolean;
   retreatId?: string; // optional FK to retreats (Phase 3)
+  updatedAt: string;
 }
 
-export interface Record {
+export interface PracticeRecord {
   id: string;
   practiceId: string;
   campaignId?: string;
   count: number;
   note?: string;
   recordedAt: string; // datetime
+  updatedAt: string;
 }
 
 export interface UserProfile {

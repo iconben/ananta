@@ -5,10 +5,11 @@ import { uid } from '@ananta/utils';
 
 export async function seedPractices(userId: string) {
   for (const practice of INIT_PRACTICES) {
+    const { updatedAt: _ignored, id: _id, ...practiceData } = practice;
     await db.insert(practices).values({
       id: uid(),
       userId,
-      ...practice,
+      ...practiceData,
     });
   }
 }

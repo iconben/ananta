@@ -1,4 +1,4 @@
-import { pgTable, text, bigint, boolean, date, timestamp, real } from 'drizzle-orm/pg-core';
+import { pgTable, text, bigint, boolean, date, timestamp, real, uniqueIndex, index } from 'drizzle-orm/pg-core';
 
 export const practices = pgTable('practices', {
   id: text('id').primaryKey(),
@@ -8,6 +8,7 @@ export const practices = pgTable('practices', {
   unit: text('unit').notNull(),
   color: text('color').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const campaigns = pgTable('campaigns', {
@@ -22,6 +23,7 @@ export const campaigns = pgTable('campaigns', {
   done: boolean('done').default(false),
   retreatId: text('retreat_id'),
   createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const records = pgTable('records', {
@@ -32,6 +34,7 @@ export const records = pgTable('records', {
   count: bigint('count', { mode: 'number' }).notNull(),
   note: text('note'),
   recordedAt: timestamp('recorded_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const users = pgTable('users', {
@@ -45,5 +48,28 @@ export const users = pgTable('users', {
   inRanking: boolean('in_ranking').default(true),
   allowFriendReq: boolean('allow_friend_req').default(true),
   fontScale: real('font_scale').default(1.0),
+  inviteCode: text('invite_code').unique(),
+  updatedAt: timestamp('updated_at').defaultNow(),
   createdAt: timestamp('created_at').defaultNow(),
 });
+
+export const magicLinks = pgTable('magic_links', {
+  id: text('id').primaryKey(),
+  email: text('email').notNull(),
+  code: text('code').notNull().unique(),
+  expiresAt: timestamp('expires_at').notNull(),
+  usedAt: timestamp('used_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const friendships = pgTable('friendships', {
+  id: text('id').primaryKey(),
+  requesterId: text('requester_id').notNull().references(() => users.id),
+  addresseeId: text('addressee_id').notNull().references(() => users.id),
+  status: text('status').notNull().default('pending'), // pending | accepted | rejected
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+}, (table) => ({
+  friendshipUnique: uniqueIndex('friendship_unique').on(table.requesterId, table.addresseeId),
+  addresseeStatusIdx: index('friendship_addressee_status_idx').on(table.addresseeId, table.status),
+}));

@@ -20,7 +20,7 @@ recordRoutes.get('/', async (c) => {
   if (end) conditions.push(lte(records.recordedAt, new Date(end)));
 
   if (conditions.length > 0) {
-    query = query.where(and(...conditions));
+    query = query.where(and(...conditions)) as typeof query;
   }
 
   const result = await query;

@@ -1,14 +1,14 @@
-import { Hono } from 'hono';
-import { StatusCode } from 'hono/utils/http-status';
+import { Context, Next } from 'hono';
+import { ContentfulStatusCode } from 'hono/utils/http-status';
 
-export const errorMiddleware = async (c: Hono, next: () => Promise<void>) => {
+export const errorMiddleware = async (c: Context, next: Next) => {
   try {
     await next();
   } catch (err: any) {
     console.error('Error:', err);
     return c.json(
       { error: err.message || 'Internal Server Error' },
-      (err.status || 500) as StatusCode
+      (err.status || 500) as ContentfulStatusCode
     );
   }
 };

@@ -20,12 +20,12 @@ export const ICON_OPTIONS = [
 
 // Default practices (from prototype lines 11-18)
 export const INIT_PRACTICES: Practice[] = [
-  { id: "guanyin",  name: "觀音心咒",     icon: "🪷", unit: "遍", color: "#f0c040" },
-  { id: "dizang",   name: "地藏菩萨名号", icon: "🕯️", unit: "遍", color: "#a78bfa" },
-  { id: "yaoshi",   name: "药师经",       icon: "📜", unit: "部", color: "#34d399" },
-  { id: "ketou",    name: "大礼拜",       icon: "🙇", unit: "拜", color: "#fb923c" },
-  { id: "gongling", name: "供灯",         icon: "🕯",  unit: "盏", color: "#fbbf24" },
-  { id: "chijie",   name: "持戒日",       icon: "☸️",  unit: "天", color: "#60a5fa" },
+  { id: "guanyin",  name: "觀音心咒",     icon: "🪷", unit: "遍", color: "#f0c040", updatedAt: new Date(0).toISOString() },
+  { id: "dizang",   name: "地藏菩萨名号", icon: "🕯️", unit: "遍", color: "#a78bfa", updatedAt: new Date(0).toISOString() },
+  { id: "yaoshi",   name: "药师经",       icon: "📜", unit: "部", color: "#34d399", updatedAt: new Date(0).toISOString() },
+  { id: "ketou",    name: "大礼拜",       icon: "🙇", unit: "拜", color: "#fb923c", updatedAt: new Date(0).toISOString() },
+  { id: "gongling", name: "供灯",         icon: "🕯",  unit: "盏", color: "#fbbf24", updatedAt: new Date(0).toISOString() },
+  { id: "chijie",   name: "持戒日",       icon: "☸️",  unit: "天", color: "#60a5fa", updatedAt: new Date(0).toISOString() },
 ];
 
 // Theme colors

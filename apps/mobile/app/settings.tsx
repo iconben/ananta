@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS } from '../src/theme';
-import { useUserStore } from '../src/stores';
+import { useUserStore, useAuthStore } from '../src/stores';
 import { Card } from '../src/components/ui/Card';
 import { Toggle } from '../src/components/ui/Toggle';
 import { Input } from '../src/components/ui/Input';
 import { FontScalePicker } from '../src/components/FontScalePicker';
 import { AvatarPicker } from '../src/components/AvatarPicker';
+import { Button } from '../src/components/ui/Button';
 
 const SECTION_TITLE = ({ children }: { children: string }) => (
   <Text style={styles.sectionTitle}>{children}</Text>
@@ -38,6 +39,7 @@ const PLACEHOLDER_ROW = ({ label }: { label: string }) => (
 export default function Settings() {
   const router = useRouter();
   const { user, updateUser } = useUserStore();
+  const { token, logout } = useAuthStore();
 
   const [savedMsg, setSavedMsg] = useState(false);
 
@@ -53,6 +55,20 @@ export default function Settings() {
     },
     [updateUser, showSaved]
   );
+
+  const handleLogout = useCallback(() => {
+    Alert.alert('退出登录', '确定要退出登录吗？', [
+      { text: '取消', style: 'cancel' },
+      {
+        text: '退出',
+        style: 'destructive',
+        onPress: async () => {
+          await logout();
+          router.replace('/');
+        },
+      },
+    ]);
+  }, [logout, router]);
 
   return (
     <View style={styles.root}>
@@ -137,10 +153,32 @@ export default function Settings() {
         {/* Account */}
         <Card>
           <SECTION_TITLE>🔑 账号</SECTION_TITLE>
-          <PLACEHOLDER_ROW label="绑定邮箱" />
-          <PLACEHOLDER_ROW label="修改密码" />
-          <PLACEHOLDER_ROW label="数据导出" />
-          <PLACEHOLDER_ROW label="退出登录" />
+          {token ? (
+            <>
+              <View style={styles.accountRow}>
+                <Text style={styles.accountLabel}>已绑定邮箱</Text>
+                <Text style={styles.accountValue}>{user.email || '未知'}</Text>
+              </View>
+              <TouchableOpacity style={styles.accountRow} onPress={handleLogout}>
+                <Text style={[styles.accountLabel, styles.dangerText]}>退出登录</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity style={styles.accountRow} onPress={() => router.push('/auth/login')}>
+                <Text style={styles.accountLabel}>绑定邮箱</Text>
+                <Text style={styles.arrow}>›</Text>
+              </TouchableOpacity>
+              <View style={styles.accountRow}>
+                <Text style={[styles.accountLabel, styles.placeholderText]}>修改密码</Text>
+                <Text style={styles.placeholderBadge}>需先绑定邮箱</Text>
+              </View>
+              <View style={styles.accountRow}>
+                <Text style={[styles.accountLabel, styles.placeholderText]}>数据导出</Text>
+                <Text style={styles.placeholderBadge}>Phase 3</Text>
+              </View>
+            </>
+          )}
         </Card>
       </ScrollView>
     </View>
@@ -270,5 +308,28 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  accountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(255,255,255,.05)',
+  },
+  accountLabel: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,.7)',
+  },
+  accountValue: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,.4)',
+  },
+  arrow: {
+    fontSize: 18,
+    color: 'rgba(255,255,255,.2)',
+  },
+  dangerText: {
+    color: '#ff6b6b',
   },
 });

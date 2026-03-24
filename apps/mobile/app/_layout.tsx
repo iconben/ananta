@@ -3,14 +3,23 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserStore, useAuthStore } from '../src/stores';
 
 export default function RootLayout() {
   const [loading, setLoading] = useState(true);
   const [onboarded, setOnboarded] = useState(false);
+  const checkAuth = useUserStore((s) => s.checkAuth);
+  const initAuth = useAuthStore((s) => s.init);
 
   useEffect(() => {
-    AsyncStorage.getItem('onboarding-complete').then((value) => {
-      setOnboarded(value === 'true');
+    // Run auth check, auth init, and onboarding check in parallel
+    Promise.all([
+      checkAuth(),
+      initAuth(),
+      AsyncStorage.getItem('onboarding-complete').then((value) => {
+        setOnboarded(value === 'true');
+      }),
+    ]).finally(() => {
       setLoading(false);
     });
   }, []);
@@ -38,6 +47,7 @@ export default function RootLayout() {
         <Stack.Screen name="practice/[id]" />
         <Stack.Screen name="campaign/[id]" />
         <Stack.Screen name="settings" />
+        <Stack.Screen name="auth/login" options={{ presentation: 'modal' }} />
       </Stack>
       <StatusBar style="light" />
     </>

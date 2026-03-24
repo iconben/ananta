@@ -6,7 +6,7 @@ import { uid } from '@ananta/utils';
 
 interface CampaignState {
   campaigns: Campaign[];
-  addCampaign: (campaign: Omit<Campaign, 'id'>) => void;
+  addCampaign: (campaign: Omit<Campaign, 'id' | 'updatedAt'>) => void;
   updateCampaign: (id: string, updates: Partial<Campaign>) => void;
   deleteCampaign: (id: string) => void;
   getCampaign: (id: string) => Campaign | undefined;
@@ -20,12 +20,12 @@ export const useCampaignStore = create<CampaignState>()(
       campaigns: [],
       addCampaign: (campaign) =>
         set((state) => ({
-          campaigns: [...state.campaigns, { ...campaign, id: uid() }],
+          campaigns: [...state.campaigns, { ...campaign, id: uid(), updatedAt: new Date().toISOString() }],
         })),
       updateCampaign: (id, updates) =>
         set((state) => ({
           campaigns: state.campaigns.map((c) =>
-            c.id === id ? { ...c, ...updates } : c
+            c.id === id ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c
           ),
         })),
       deleteCampaign: (id) =>
